@@ -1,0 +1,34 @@
+controller:
+  # Activate after successful cert-manager instalation
+  #extraArgs:
+  #  default-ssl-certificate: ingress-nginx/workshop-tls-cert
+
+  replicaCount: 3
+
+  minAvailable: 1
+
+  resources:
+    limits:
+      cpu: 500m
+      memory: 512Mi
+    requests:
+      cpu: 200m
+      memory: 256Mi
+
+  autoscaling:
+    enabled: true
+    minReplicas: 3
+    maxReplicas: 6
+    targetCPUUtilizationPercentage: 50
+    targetMemoryUtilizationPercentage: 50
+
+  metrics:
+    enabled: true
+
+    service:
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "10254"
+
+defaultBackend:
+  enabled: true
