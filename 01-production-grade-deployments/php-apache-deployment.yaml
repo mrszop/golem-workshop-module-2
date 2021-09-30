@@ -4,7 +4,6 @@ metadata:
   labels:
     app: php-apache
   name: php-apache
-  namespace: djarosch
 spec:
   replicas: 10
   selector:

@@ -11,13 +11,13 @@ kubectl config set-context --current --namespace="${YOUR_NAMESPACE}"
 * Create a skeleton deployment file, apply it, check it, delete the deployment
 
 ```shell
-kubectl -n create deployment --image=gcr.io/google_containers/hpa-example php-apache -o yaml --dry-run=client > php-apache-deployment-skeleton.yaml
+kubectl create deployment --image=gcr.io/google_containers/hpa-example php-apache -o yaml --dry-run=client > php-apache-deployment-skeleton.yaml
 
-kubectl -n apply -f php-apache-deployment-skeleton.yaml
+kubectl apply -f php-apache-deployment-skeleton.yaml
 
-kubectl -n get -f php-apache-deployment-skeleton.yaml
+kubectl get -f php-apache-deployment-skeleton.yaml
 
-kubectl -n delete -f php-apache-deployment-skeleton.yaml
+kubectl delete -f php-apache-deployment-skeleton.yaml
 ```
 
 * Customize to our liking by defining resources and releasing a port
@@ -29,7 +29,6 @@ metadata:
   labels:
     app: php-apache
   name: php-apache
-  namespace: djarosch
 spec:
   replicas: 10
   selector:
@@ -97,43 +96,43 @@ spec:
 * Apply deployment and check if everything works as expected
 
 ```shell
-kubectl -n apply -f php-apache-deployment.yaml
-kubectl -n get deployment
-kubectl -n describe deployment php-apache
+kubectl apply -f php-apache-deployment.yaml
+kubectl get deployment
+kubectl describe deployment php-apache
 ```
 
 * We need a service, with a clusterIP, so that the pods are response to our calls 
   * we can use the skeleton method to create a service 
 
 ```shell
-kubectl -n create service clusterip php-apache --tcp=80:80 --dry-run=client -o yaml > php-apache-service-skeleton.yaml
-kubectl -n apply -f php-apache-service.yaml
+kubectl create service clusterip php-apache --tcp=80:80 --dry-run=client -o yaml > php-apache-service-skeleton.yaml
+kubectl apply -f php-apache-service.yaml
 ```
 
 * Check if service is up as expected
 
 ```shell
-kubectl -n get svc php-apache -o wide
-kubectl -n describe svc php-apache
+kubectl get svc php-apache -o wide
+kubectl describe svc php-apache
 ```
 
 * Look out for Endpoints, thats you Pods!
 
 ```shell
-kubectl -n get pods -o wide
+kubectl get pods -o wide
 ```
 
 * Create Horizontal Pod Autoscaler
   * we can us the skeleton method again and modify the YAML to our needs
 
 ```shell
-kubectl -n autoscale deployment php-apache --cpu-percent=20 --min=1 --max=10 -o yaml --dry-run=client > php-apache-hpa-skeleton.yaml
+kubectl autoscale deployment php-apache --cpu-percent=20 --min=1 --max=10 -o yaml --dry-run=client > php-apache-hpa-skeleton.yaml
 ```
 
 * lets scale down our deployment
 
 ```shell
-kubectl -n scale -f php-apache-deployment-skeleton.yaml --replicas=1
+kubectl scale -f php-apache-deployment-skeleton.yaml --replicas=1
 ```
 
 * Let's check the content of the HorizontalPodAutoscaler
@@ -157,14 +156,14 @@ spec:
 * Apply the HorizontalPodAutoscaler
 
 ```shell
-kubectl -n apply -f php-apache-hpa-skeleton.yaml
+kubectl apply -f php-apache-hpa-skeleton.yaml
 ```
 
 * Start a new pod with the busybox image which we will use to stress our service. We have to be a little bit patient until the results shows up
 
 ```shell
-kubectl -n run -i --tty load-generator --image=busybox /bin/sh # if you run a brand new Pod or
-kubectl -n attach load-generator -c load-generator -i -t # if you want to use it again after you exit it
+kubectl run -i --tty load-generator --image=busybox /bin/sh # if you run a brand new Pod or
+kubectl attach load-generator -c load-generator -i -t # if you want to use it again after you exit it
 while true; do wget -q -O- http://php-apache.YOUR-NAMESPACE.svc.cluster.local; done
 ```
 
@@ -172,39 +171,39 @@ while true; do wget -q -O- http://php-apache.YOUR-NAMESPACE.svc.cluster.local; d
   * Lets the local machine forward to the cluster. Either to a pod directly or to a service. To test pods, Bret Fisher's shpod.yml is also useful. You need to run the scenario with two windows
 
 ```shell
-kubectl -n port-forward svc/php-apache 8080:80
-kubectl -n  logs -f -l name=php-apache --all-containers
+kubectl port-forward svc/php-apache 8080:80
+kubectl  logs -f -l name=php-apache --all-containers
 ```
 
 * Lets check what's going on
 
 ```shell
-kubectl -n get hpa
-kubectl -n top pod
-kubectl -n get deployment php-apache
+kubectl get hpa
+kubectl top pod
+kubectl get deployment php-apache
 ```
 
 * Apply PodDisruptionBudget resource
 
 ```shell
-kubectl -n apply -f php-apache-pdb.yaml
+kubectl apply -f php-apache-pdb.yaml
 ```
 
 * Delete HPA, scale down to own replica and find out what node last Pod is runnning
   
 ```shell
-kubectl -n apply -f php-apache-pdb.yaml
-kubectl -n delete -f php-apache-hpa-skeleton.yaml
-kubectl -n scale -f php-apache-deployment-skeleton.yaml --replicas=1
-kubectl -n delete pod load-generator
-kubectl -n get pod -o wide
-kubectl -n get node
+kubectl apply -f php-apache-pdb.yaml
+kubectl delete -f php-apache-hpa-skeleton.yaml
+kubectl scale -f php-apache-deployment-skeleton.yaml --replicas=1
+kubectl delete pod load-generator
+kubectl get pod -o wide
+kubectl get node
 ```
 
 * try to drain node
   
 ```
-kubectl -n drain "NODE-NAME"
+kubectl drain "NODE-NAME"
 ```
 
 * Tear down everything
