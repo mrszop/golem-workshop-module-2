@@ -19,11 +19,7 @@ kubectl create namespace cert-manager
 ```
 
 ```shell
-helm search repo jetstack
-```
-
-```shell
-helm install cert-manager jetstack/cert-manager --namespace cert-manager --version v1.5.3 --set installCRDs=true
+helm install cert-manager jetstack/cert-manager --namespace cert-manager --version v1.6.1 --set installCRDs=true
 ```
 
 ## Configuration for route53
@@ -43,3 +39,5 @@ kubectl apply -f clusterissuer.yaml
 ```shell
 kubectl apply -f certificate.yaml
 ```
+
+* last step: activate in NGINX Ingress Controler default-ssl-certificate
