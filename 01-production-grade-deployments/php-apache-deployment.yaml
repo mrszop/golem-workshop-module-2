@@ -43,10 +43,10 @@ spec:
         resources:
           requests:
             memory: 64Mi
-            cpu: 50m
+            cpu: 70m
           limits:
             memory: 64Mi
-            cpu: 50m
+            cpu: 70m
         ports:
           - containerPort: 80
             name: http
@@ -60,9 +60,7 @@ spec:
           timeoutSeconds: 1
           failureThreshold: 3
         readinessProbe:
-          exec:
-            command:
-            - cat
-            - /var/www/html/index.php
+          tcpSocket:
+            port: 80
           initialDelaySeconds: 5
           periodSeconds: 5

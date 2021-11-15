@@ -18,7 +18,7 @@ kubectl create namespace external-dns
 ```
 
 ```shell
-helm upgrade --install external-dns --namespace external-dns --values values.yaml bitnami/external-dns --version=5.4.7
+helm upgrade --install external-dns --namespace external-dns --values values.yaml bitnami/external-dns --version=5.4.15
 ```
 
 * Check if ExternalDNS Pod is up and running
@@ -36,7 +36,7 @@ kubectl --namespace=external-dns logs -l "app.kubernetes.io/name=external-dns,ap
 * Deploy nginx test with dns entry:
 
 ```shell
-kubectl apply -f nginx-test.yaml --namespace external-dns
+kubectl apply -f externaldns-test.yaml --namespace external-dns
 ```
 
 * Check Deployment, Services and Pods from previous Deployment and watch out for External IP for Service `service/nginx`
@@ -50,4 +50,10 @@ kubectl get deployment,pods,services
 ```shell
 NAME                   TYPE           CLUSTER-IP      EXTERNAL-IP      PORT(S)        AGE
 service/nginx          LoadBalancer   10.240.26.62    185.56.130.197   80:32428/TCP   2m19s
+```
+
+* delete the externaldns-test Pod
+
+```shell
+kubectl delete -f externaldns-test.yaml --namespace external-dns
 ```

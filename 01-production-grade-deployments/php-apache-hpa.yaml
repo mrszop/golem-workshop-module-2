@@ -11,4 +11,4 @@ spec:
     name: php-apache
   # das Target bezieht sich auf den CPU Request des gesamten Pods
   # es ist von daher ein MUSS die Ressourcen Requests zu setzen, damit das funktioniert
-  targetCPUUtilizationPercentage: 20
+  targetCPUUtilizationPercentage: 25
