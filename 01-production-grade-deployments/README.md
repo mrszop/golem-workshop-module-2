@@ -24,7 +24,7 @@ kubectl delete -f php-apache-deployment-skeleton.yaml
 rm -f php-apache-deployment-skeleton.yaml
 ```
 
-* Customize to our liking by defining resources and releasing a port
+* Customize to our liking by defining resources and releasing a port (already done in `php-apache-deployment.yaml`)
 
 ```yaml
 apiVersion: apps/v1
@@ -89,10 +89,8 @@ spec:
           timeoutSeconds: 1
           failureThreshold: 3
         readinessProbe:
-          exec:
-            command:
-            - cat
-            - /var/www/html/index.php
+          tcpSocket:
+            port: 80
           initialDelaySeconds: 5
           periodSeconds: 5
 ```
@@ -139,13 +137,12 @@ kubectl get -f php-apache-deployment.yaml
 kubectl get pods
 ```
 
-* Let's check the content of the HorizontalPodAutoscaler
+* Let's check the content of the HorizontalPodAutoscaler in `php-apache-hpa.yaml`
 
 ```yaml
 apiVersion: autoscaling/v1
 kind: HorizontalPodAutoscaler
 metadata:
-  creationTimestamp: null
   name: php-apache
 spec:
   maxReplicas: 10
@@ -154,7 +151,9 @@ spec:
     apiVersion: apps/v1
     kind: Deployment
     name: php-apache
-  targetCPUUtilizationPercentage: 20
+  # das Target bezieht sich auf den CPU Request des gesamten Pods
+  # es ist von daher ein MUSS die Ressourcen Requests zu setzen, damit das funktioniert
+  targetCPUUtilizationPercentage: 25
 ```
 
 * Apply the HorizontalPodAutoscaler
@@ -215,7 +214,7 @@ kubectl drain "NODE-NAME" --ignore-errors --ignore-daemonsets --delete-emptydir-
 * Tear down everything
 
 ```shell
-kubectl delete -f php-apache-hpa.yaml php-apache-service.yaml php-apache-deployment.yaml php-apache-pdb.yaml
+kubectl delete -f php-apache-hpa.yaml -f php-apache-service.yaml -f php-apache-deployment.yaml -f php-apache-pdb.yaml
 ```
 
 * you should see a message like this
