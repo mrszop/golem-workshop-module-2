@@ -8,7 +8,7 @@ spec:
   containers:
   - image: busybox
     command: ["/bin/sh"]
-    args: ["-c", "while true; do echo echo $(date -u) 'Hi I am from Sidecar container' >> /var/log/index.html; sleep 5;done"]
+    args: ["-c", "while true; do echo $(date -u) 'Hi I am from Sidecar container <br>' >> /var/log/index.html; sleep 5;done"]
     name: sidecar-container
     resources: {}
     volumeMounts:

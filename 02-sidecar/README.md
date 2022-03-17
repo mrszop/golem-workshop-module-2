@@ -17,13 +17,14 @@ kubectl describe -f sidecar-echo.yaml
 kubectl port-forward pod/sidecar-container-demo 8080:80
 ```
 
+* Go to http://localhost:8080
 * Lets tear down everything
 
 ```shell
 kubectl delete -f sidecar-echo.yaml
 ```
 
-* In this example a sidecar proxy is used to provide basic authentication for an application without authentication itself. The proxy has an exposed container port on port 0.0.0.0:80 and is available to other pods. The application container has no container pods exposed and only listens for requests on the loopback device on port 127.0.01:8080
+* In the next example a sidecar proxy is used to provide basic authentication for an application without authentication itself. The proxy has an exposed container port on port 0.0.0.0:80 and is available to other pods. The application container has no container pods exposed and only listens for requests on the loopback device on port 127.0.01:8080
 
 ```shell
 kubectl apply -f sidecar-proxy.yaml
