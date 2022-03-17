@@ -28,6 +28,12 @@ kubectl logs myapp-pod -c init-mydb      # Inspect the second init containers
 kubectl apply -f services.yaml
 ```
 
+* Check that the pod is now running
+
+```shell
+kubectl get -f myapp.yaml
+```
+
 * Lets tear down everything
 
 ```shell
