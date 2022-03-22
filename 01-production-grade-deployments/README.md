@@ -4,8 +4,8 @@
   * We deploy a simple Apache with PHP that delivers an index.php on request and thus creates some loaad. Let's create a namespace for our needs and switch into it. With the next command we will create a skeleton that we will customize.
 
 ```shell
-kubectl create namespace "YOUR_NAMESPACE"
-kubectl config set-context --current --namespace="${YOUR_NAMESPACE}"
+kubectl create namespace "YOURNAME"
+kubectl config set-context --current --namespace="${YOURNAME}"
 ```
 
 * Create a skeleton deployment file, apply it, check it, delete the deployment afterwards
