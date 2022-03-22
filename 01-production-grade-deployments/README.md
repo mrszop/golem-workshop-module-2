@@ -205,7 +205,7 @@ kubectl get pod -o wide
 kubectl get node
 ```
 
-* try to drain node (this should only be done by one user)
+* try to drain node (this should only be done by **one user**)
   
 ```sh
 kubectl drain "NODE-NAME" --ignore-errors --ignore-daemonsets --delete-emptydir-data # extra options because of metakube specific pods running
