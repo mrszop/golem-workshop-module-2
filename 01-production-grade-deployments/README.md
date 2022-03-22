@@ -42,7 +42,7 @@ spec:
     rollingUpdate:
       # wir möchten, bei einem Deployment, 100% aller Pods direkt neu erstellen
       maxSurge: 100%
-      # wir möchten, bei einem Deployment, das maximal 50% aller Pods gleichzeitig down gehen
+      # wir möchten, bei einem Deployment, dass maximal 50% aller Pods gleichzeitig down gehen
       maxUnavailable: 50%
   template:
     metadata:
@@ -218,4 +218,4 @@ kubectl delete -f php-apache-hpa.yaml -f php-apache-service.yaml -f php-apache-d
 ```
 
 * you should see a message like this
-  * error when evicting pods/"php-apache-f966667ff-wshts" -n "YOUR_NAMESPACE" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+  * error when evicting pods/"php-apache-f966667ff-wshts" -n "YOURNAME" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
