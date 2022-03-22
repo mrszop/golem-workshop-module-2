@@ -205,7 +205,7 @@ kubectl get pod -o wide
 kubectl get node
 ```
 
-* try to drain node
+* try to drain node (this should only be done by one user)
   
 ```sh
 kubectl drain "NODE-NAME" --ignore-errors --ignore-daemonsets --delete-emptydir-data # extra options because of metakube specific pods running
@@ -218,4 +218,4 @@ kubectl delete -f php-apache-hpa.yaml -f php-apache-service.yaml -f php-apache-d
 ```
 
 * you should see a message like this
-  * error when evicting pods/"php-apache-f966667ff-wshts" -n "djarosch" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+  * error when evicting pods/"php-apache-f966667ff-wshts" -n "YOUR_NAMESPACE" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
