@@ -37,5 +37,5 @@ kubectl get -f myapp.yaml
 * Lets tear down everything
 
 ```shell
-kubectl delete -f myapp.yaml services.yaml
+kubectl delete -f myapp.yaml -f services.yaml
 ```
