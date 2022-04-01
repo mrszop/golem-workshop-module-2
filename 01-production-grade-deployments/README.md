@@ -4,7 +4,8 @@
   * We deploy a simple Apache with PHP that delivers an index.php on request and thus creates some load. Let's create a namespace for our needs and switch into it. With the next command we will create a skeleton that we will customize.
 
 ```shell
-kubectl create namespace "YOURNAME"
+kubectl create namespace <YOURNAME>
+kubectl label namespace <YOURNAME> golem-workshop=true
 kubectl config set-context --current --namespace="${YOURNAME}"
 ```
 
