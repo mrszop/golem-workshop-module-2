@@ -3,7 +3,8 @@
 * Let's create a namespace for our needs and switch into it.
 
 ```shell
-kubectl create namespace "YOUR_NAMESPACE"
+kubectl create namespace <YOURNAME>
+kubectl label namespace <YOURNAME> golem-workshop=true
 kubectl config set-context --current --namespace="${YOUR_NAMESPACE}"
 ```
 
