@@ -1,6 +1,6 @@
 # MySQL
 
-* Create additional node deployment
+* Create additional node deployment consisting of 3 nodes
   * Select a local storage flavor
   * Node labels
     * Key: mysql
@@ -18,7 +18,8 @@
 ```shell
 kubectl create namespace local-path-storage
 git clone https://github.com/rancher/local-path-provisioner.git
-helm upgrade --install --namespace local-path-storage local-path-storage ./local-path-provisioner/deploy/chart/
+helm upgrade --install --namespace local-path-storage local-path-storage ./local-path-provisioner/deploy/chart/local-path-provisioner/ -f values-local-path-provisioner.yaml
+kubectl get sc
 ```
 
 ## Presslabs Operator
@@ -37,6 +38,8 @@ helm upgrade --install --namespace mysql mysql-operator presslabs/mysql-operator
 ```shell
 kubectl apply -f presslabs-secret.yaml
 kubectl apply -f presslabs-cluster.yaml
+kubectl -n mysql get pvc
+kubectl -n mysql run -it --rm --image=mysql:5.6 --restart=Never mysql-client -- mysql -h my-cluster-mysql -uroot -pnot-so-secure
 ```
 
 ## also check Tolerations
