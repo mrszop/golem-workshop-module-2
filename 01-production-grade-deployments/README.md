@@ -181,7 +181,7 @@ while true; do wget -q -O- http://php-apache.YOUR-NAMESPACE.svc.cluster.local; d
 
 ```shell
 kubectl port-forward svc/php-apache 8080:80
-kubectl logs -f -l name=php-apache --all-containers
+kubectl logs -f -l app=php-apache --all-containers
 ```
 
 * Lets check what's going on
