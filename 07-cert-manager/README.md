@@ -19,7 +19,7 @@ kubectl create namespace cert-manager
 ```
 
 ```shell
-helm install cert-manager jetstack/cert-manager --namespace cert-manager --version v1.6.1 --set installCRDs=true
+helm upgrade --install cert-manager jetstack/cert-manager --namespace cert-manager --version v1.9.1 --set installCRDs=true
 ```
 
 ## Configuration for route53
