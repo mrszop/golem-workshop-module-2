@@ -18,7 +18,7 @@ kubectl create namespace external-dns
 ```
 
 ```shell
-helm upgrade --install external-dns --namespace external-dns --values values.yaml bitnami/external-dns --version=5.4.15
+helm upgrade --install external-dns --namespace external-dns --values values.yaml bitnami/external-dns --version=6.1.0
 ```
 
 * Check if ExternalDNS Pod is up and running
