@@ -22,22 +22,23 @@ helm upgrade --install --namespace local-path-storage local-path-storage ./local
 kubectl get sc
 ```
 
-## Presslabs Operator
+## MySQL DB Operator
 
-* [Upstream Repository](https://github.com/presslabs/mysql-operator)
-* [ArtifactHub.io - mysql-operator](https://artifacthub.io/packages/helm/presslabs/mysql-operator)
+* [Upstream Repository](https://github.com/bitpoke/mysql-operator)
+* [ArtifactHub.io - mysql-operator](https://artifacthub.io/packages/helm/bitpoke/mysql-operator)
 
 ```shell
 kubectl create namespace mysql
-helm repo add presslabs https://presslabs.github.io/charts
-helm upgrade --install --namespace mysql mysql-operator presslabs/mysql-operator --version=0.5.0-rc.3
+helm repo add bitpoke https://helm-charts.bitpoke.io
+helm repo update
+helm upgrade --install --namespace mysql mysql-operator bitpoke/mysql-operator --version=0.5.3
 ```
 
 ## MySQL Cluster
 
 ```shell
-kubectl apply -f presslabs-secret.yaml
-kubectl apply -f presslabs-cluster.yaml
+kubectl apply -f mysql-secret.yaml
+kubectl apply -f mysql-cluster.yaml
 kubectl -n mysql get pvc
 kubectl -n mysql run -it --rm --image=mysql:5.6 --restart=Never mysql-client -- mysql -h my-cluster-mysql -uroot -pnot-so-secure
 ```
@@ -45,5 +46,5 @@ kubectl -n mysql run -it --rm --image=mysql:5.6 --restart=Never mysql-client -- 
 ## also check Tolerations
 
 ```shell
-kubectl -n mysql describe pod ...
+kubectl -n mysql describe pod
 ```

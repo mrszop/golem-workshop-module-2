@@ -1,7 +1,7 @@
 controller:
   # Activate after successful cert-manager instalation
-  #extraArgs:
-  #  default-ssl-certificate: ingress-nginx/workshop-tls-cert
+  extraArgs:
+    default-ssl-certificate: ingress-nginx/workshop-tls-cert
 
   replicaCount: 3
 
