@@ -1,9 +1,0 @@
-replicaCount: 3
-
-nodeSelector:
-  mysql: "true"
-
-tolerations:
-  - key: mysql
-    operator: Exists
-    effect: NoSchedule
