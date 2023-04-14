@@ -1,0 +1,23 @@
+---
+apiVersion: mysql.presslabs.org/v1alpha1
+kind: MysqlCluster
+metadata:
+  namespace: mysql
+  name: my-cluster
+spec:
+  secretName: mysql-secrets
+  replicas: 3
+  podSpec:
+    nodeSelector:
+      mysql: "true"
+    tolerations:
+      - key: mysql
+        operator: Exists
+        effect: NoSchedule
+  volumeSpec:
+    persistentVolumeClaim:
+      accessModes: ["ReadWriteOnce"]
+      storageClassName: local-path
+      resources:
+        requests:
+          storage: 1Gi
