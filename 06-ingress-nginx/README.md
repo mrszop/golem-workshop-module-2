@@ -22,7 +22,7 @@ helm repo update
 ## Install Ingress NGINX Controller with provided values.yaml, newest version
 
 ```shell
-helm upgrade --install -f values.yaml --namespace ingress-nginx ingress-nginx ingress-nginx/ingress-nginx --version=4.3.0
+helm upgrade --install -f values.yaml --namespace ingress-nginx ingress-nginx ingress-nginx/ingress-nginx --version=4.6.0
 ```
 
 ## Check if Ingress NGINX Controller is up and running
