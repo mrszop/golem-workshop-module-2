@@ -4,7 +4,7 @@
 
 [ArtifactHub - cert-manager](https://artifacthub.io/packages/helm/cert-manager/cert-manager)
 
-## Install and configure cert-manager
+### Install and configure cert-manager
 
 ```shell
 helm repo add jetstack https://charts.jetstack.io
@@ -19,7 +19,7 @@ kubectl create namespace cert-manager
 ```
 
 ```shell
-helm upgrade --install cert-manager jetstack/cert-manager --namespace cert-manager --version v1.11.1 --set installCRDs=true
+helm upgrade --install cert-manager jetstack/cert-manager --namespace cert-manager --version v1.14.4 --set installCRDs=true
 ```
 
 ## Configuration for route53
@@ -34,7 +34,7 @@ kubectl apply -f credentials-secret.yaml
 kubectl apply -f clusterissuer.yaml
 ```
 
-* Create wildcard certificate
+* Create wildcard certificate and be a little patient...
 
 ```shell
 kubectl apply -f certificate.yaml

@@ -1,15 +1,25 @@
 # Production-grade Deployments
 
-* Deploy application
-  * We deploy a simple Apache with PHP that delivers an index.php on request and thus creates some load. Let's create a namespace for our needs and switch into it.
+## Preparation
+
+* Before you begin with the actual exercise please make sure to follow these steps to work in your own environment:
 
 ```shell
 kubectl create namespace <YOURNAME>
-kubectl label namespace <YOURNAME> golem-workshop=true
 kubectl config set-context --current --namespace="${YOURNAME}"
 ```
 
-With the next command we will create a skeleton that we will customize.
+* Clone this repository to your working station and change into the directory for this exercise
+
+---
+
+## Exercise
+
+### Deploy application
+
+* We deploy a simple Apache with PHP that delivers an index.php on request and thus creates some load. Let's create a namespace for our needs and switch into it.
+
+With the next command we will create a skeleton we can customize.
 
 * Create a skeleton deployment file, apply it, check it, delete the deployment afterwards
 * This is just for demo purposes to show how to generate a deployment
@@ -43,9 +53,9 @@ spec:
       app: php-apache
   strategy:
     rollingUpdate:
-      # wir möchten, bei einem Deployment, 100% aller Pods direkt neu erstellen
+      # updating a deployment should create 100% of all pods
       maxSurge: 100%
-      # wir möchten, bei einem Deployment, dass maximal 50% aller Pods gleichzeitig down gehen
+      # updating a deployment should only cause a max. of 50% of all pods to be unavailable at the same time
       maxUnavailable: 50%
   template:
     metadata:
@@ -53,20 +63,20 @@ spec:
         app: php-apache
     spec:
       affinity:
-        # Pod soll NICHT auf und der selben Node gescheduled werden
+        # pod should not be scheduled on the same node
         podAntiAffinity:
-          # aber wenn er schon mal drauf läuft, dann egal
+          # but if it is already running there then nevermind
           preferredDuringSchedulingIgnoredDuringExecution:
             - weight: 1
               podAffinityTerm:
-                # anhand folgender Pod Labels soll entschieden werden
+                # make decision upon these labels
                 labelSelector:
                   matchExpressions:
                     - key: "app"
                       operator: In
                       values:
                         - php-apache
-                # die Auswirkung soll auf die Node anhand ihres Namens erfolgen
+                # should affect nodes depending on their names
                 topologyKey: "kubernetes.io/hostname"
       containers:
       #- image: nginx
@@ -107,13 +117,15 @@ kubectl get pod,deploy
 kubectl describe deployment php-apache
 ```
 
-* We need a service, with a clusterIP, so that the pods are response to our calls 
+* We need a service, with a clusterIP, so that the pods respond to our requests 
   * we could use the skeleton method to create a service like before for deployment
     * `kubectl create service clusterip php-apache --tcp=80:80 --dry-run=client -o yaml > php-apache-service-skeleton.yaml`
 
-```shell
-kubectl apply -f php-apache-service.yaml
-```
+  * or we can simply apply the prepared service manifest
+
+    ```shell
+    kubectl apply -f php-apache-service.yaml
+    ```
 
 * Check if service is up as expected
 
@@ -154,8 +166,8 @@ spec:
     apiVersion: apps/v1
     kind: Deployment
     name: php-apache
-  # das Target bezieht sich auf den CPU Request des gesamten Pods
-  # es ist von daher ein MUSS die Ressourcen Requests zu setzen, damit das funktioniert
+  # target refers to the CPU requests of the whole pod
+  # it is mandatory to set resource requests to be able to use HPA
   targetCPUUtilizationPercentage: 25
 ```
 
@@ -210,15 +222,23 @@ kubectl get node
 
 * try to drain node (this should only be done by **one user**)
   
-```sh
-kubectl drain "NODE-NAME" --ignore-daemonsets --delete-emptydir-data # extra options because of metakube specific pods running
-```
-
-* Tear down everything
-
-```shell
-kubectl delete -f php-apache-hpa.yaml -f php-apache-service.yaml -f php-apache-deployment.yaml -f php-apache-pdb.yaml
-```
+  ```sh
+  kubectl drain "NODE-NAME" --ignore-daemonsets --delete-emptydir-data # extra options because of metakube specific pods running
+  ```
 
 * you should see a message like this
   * error when evicting pods/"php-apache-f966667ff-wshts" -n "YOURNAME" (will retry after 5s): Cannot evict pod as it would violate the pod's disruption budget.
+
+* abort the node drain and set the node back into the cluster
+
+  ```shell
+  kubectl uncordon "NODE-NAME"
+  ```
+
+### Clean up
+
+* Tear down everything
+
+  ```shell
+  kubectl delete -f php-apache-service.yaml -f php-apache-deployment.yaml -f php-apache-pdb.yaml
+  ```

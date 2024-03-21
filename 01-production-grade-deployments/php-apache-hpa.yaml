@@ -9,6 +9,6 @@ spec:
     apiVersion: apps/v1
     kind: Deployment
     name: php-apache
-  # das Target bezieht sich auf den CPU Request des gesamten Pods
-  # es ist von daher ein MUSS die Ressourcen Requests zu setzen, damit das funktioniert
+  # target refers to the CPU requests of the whole pod
+  # it is mandatory to set resource requests to be able to use HPA
   targetCPUUtilizationPercentage: 25
