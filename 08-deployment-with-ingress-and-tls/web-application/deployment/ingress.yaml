@@ -8,10 +8,10 @@ spec:
   ingressClassName: nginx
   tls:
     - hosts:
-        - web-application-CHANGEME.workshop.metakube.org
+        - web-application-CHANGEME.workshop.metakube.org # <-- adjust here
       secretName: workshop-tls-cert
   rules:
-    - host: web-application-CHANGEME.workshop.metakube.org
+    - host: web-application-CHANGEME.workshop.metakube.org # <-- adjust here
       http:
         paths:
           - path: /

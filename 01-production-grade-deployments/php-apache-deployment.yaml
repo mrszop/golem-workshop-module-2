@@ -11,9 +11,9 @@ spec:
       app: php-apache
   strategy:
     rollingUpdate:
-      # wir möchten, bei einem Deployment, 100% aller Pods direkt neu erstellen
+      # updating a deployment should create 100% of all pods
       maxSurge: 100%
-      # wir möchten, bei einem Deployment, das maximal 50% aller Pods gleichzeitig down gehen
+      # updating a deployment should only cause a max. of 50% of all pods to be unavailable at the same time
       maxUnavailable: 50%
   template:
     metadata:
@@ -21,20 +21,20 @@ spec:
         app: php-apache
     spec:
       affinity:
-        # Pod soll NICHT auf und der selben Node gescheduled werden
+        # pod should not be scheduled on the same node
         podAntiAffinity:
-          # aber wenn er schon mal drauf läuft, dann egal
+          # but if it is already running there then nevermind
           preferredDuringSchedulingIgnoredDuringExecution:
             - weight: 1
               podAffinityTerm:
-                # anhand folgender Pod Labels soll entschieden werden
+                # make decision upon these labels
                 labelSelector:
                   matchExpressions:
                     - key: "app"
                       operator: In
                       values:
                         - php-apache
-                # die Auswirkung soll auf die Node anhand ihres Namens erfolgen
+                # should affect nodes depending on their names
                 topologyKey: "kubernetes.io/hostname"
       containers:
       #- image: nginx

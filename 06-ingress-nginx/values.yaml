@@ -1,5 +1,5 @@
 controller:
-  # Activate after successful cert-manager instalation
+  # Activate the next 2 lines after successful cert-manager installation
   # extraArgs:
     # default-ssl-certificate: ingress-nginx/workshop-tls-cert
 
@@ -8,15 +8,12 @@ controller:
   minAvailable: 1
 
   resources:
-    limits:
-      cpu: 500m
-      memory: 512Mi
     requests:
-      cpu: 200m
-      memory: 256Mi
+      cpu: 100m
+      memory: 90Mi
 
   autoscaling:
-    enabled: true
+    enabled: false
     minReplicas: 3
     maxReplicas: 6
     targetCPUUtilizationPercentage: 50

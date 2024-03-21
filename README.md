@@ -1,6 +1,6 @@
 # Dive-In Kubernetes: Production Grade Deployments
 
-## Beschreibungstext
+## Beschreibung
 In diesem Dive-In Workshop wollen wir euch die Grundlagen von Production Grade Deployments vermitteln. Eine Mischung aus Theorie, praktischen Beispielen und Übungsaufgaben inkl. Testumgebung erwartet euch.
 
 ## Ziele
