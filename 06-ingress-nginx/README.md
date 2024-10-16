@@ -6,12 +6,6 @@
 
 * Install nginx ingress controller
 
-### Create namespace called ingress-nginx
-
-```shell
-kubectl create namespace ingress-nginx
-```
-
 ### Add Ingress NGINX Helm Repo and update Cache
 
 ```shell
@@ -25,7 +19,7 @@ helm repo update
 
 Example syntax:
 ```shell
-helm upgrade --install -f <VALUES-FILE> --namespace <NAMESPACE> <RELEASE> <REPOSITORY>/<CHART> --version=<VERSION>
+helm upgrade --install -f <VALUES-FILE> --create-namespace --namespace <NAMESPACE> <RELEASE> <REPOSITORY>/<CHART> --version=<VERSION>
 ```
 
 Now let's install it:
