@@ -24,7 +24,7 @@ helm upgrade --install -f <VALUES-FILE> --create-namespace --namespace <NAMESPAC
 
 Now let's install it:
 ```shell
-helm upgrade --install -f values.yaml --namespace ingress-nginx ingress-nginx ingress-nginx/ingress-nginx --version=4.10.0
+helm upgrade --install -f values.yaml --create-namespace --namespace ingress-nginx ingress-nginx ingress-nginx/ingress-nginx --version=4.10.0
 ```
 
 ### Check if Ingress NGINX Controller is up and running
